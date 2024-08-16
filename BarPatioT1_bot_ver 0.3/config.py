@@ -1,5 +1,5 @@
 
-TOKEN = '7465113130:AAHrE9tzcB01dck0qYZ5MmLKvzal1TYzFBs'
+TOKEN = 'Token'
 
 ## file path
 
