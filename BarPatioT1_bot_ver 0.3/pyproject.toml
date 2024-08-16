@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "barpatiot1-bot-ver 0-002"
+name = "barpatiot1-bot-ver 0-03"
 version = "0.1.0"
 description = ""
 authors = ["TTwenzos"]
-readme = "README.md"
-packages = [{include = "barpatiot1_bot_ver 0"}]
+readme = "README.txt"
+packages = [{include = "barpatiot1_bot_ver 0.3"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"

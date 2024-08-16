@@ -1,7 +1,6 @@
+import sys
+TOKEN = '7465113130:AAHrE9tzcB01dck0qYZ5MmLKvzal1TYzFBs'
 
-TOKEN = 'Token'
+os_path = str(sys.path[0])
 
-## file path
-
-bottle_list_path = 'Files\Libs\Bottle list.xlsx'
-requirement_path = 'Files\files'
+bottle_list_path = f"{os_path}\\Files\\Libs\\Bottle list.xlsx" 

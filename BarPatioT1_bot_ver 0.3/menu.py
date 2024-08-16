@@ -1,18 +1,16 @@
 import telebot
 from telebot import types
 from datetime import datetime, date
-
+from loging import err_archivist
 class Time:
     def get_date(day = "today") -> str:
         if day == "today":
             date_day = date.today()
         return str(date_day)
-    
     def get_hour() -> int:
         current_datetime = datetime.now()
         hour = current_datetime.hour
         return hour
-    
     def local_time() -> str:
         date_current_datetime = str(date.today())
         time_current_datetime = str(datetime.now().hour) + ':' + str(
@@ -20,7 +18,6 @@ class Time:
                                     datetime.now().second)
         time = 'local time — ' + date_current_datetime + ' ' + time_current_datetime
         return time
-    
     def greeting(hour) -> str:
         if hour >= 6 and hour < 12:
             buona = 'Buongiorno'
@@ -46,41 +43,52 @@ class Reply_menu_keyboard:
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1 = types.KeyboardButton('Бар')
         btn2 = types.KeyboardButton('Склад')
-        btn3 = types.KeyboardButton('Обратная связь')
+        btnx = types.KeyboardButton('Обратная связь')
         markup.add(btn1, btn2)
-        markup.add(btn3)
+        markup.add(btnx)
         return markup
-    def bar():
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn1 = types.KeyboardButton('График')
-        btn2 = types.KeyboardButton('Стоп лист')
-        btn3 = types.KeyboardButton('Обратно в меню')
-        markup.add(btn1, btn2)
-        markup.add(btn3)
-        return markup
-    def storage():
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn1 = types.KeyboardButton('Потребность')
-        btn2 = types.KeyboardButton('Инвентаризация')
-        btn3 = types.KeyboardButton('Обратно в меню')
-        markup.add(btn1, btn2)
-        markup.add(btn3)
-        return markup
-    def create_require():
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn1 = types.KeyboardButton('Готово')
-        btn2 = types.KeyboardButton('Отмена')
-        markup.add(btn1, btn2)
-        return markup
-    def require():
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn1 = types.KeyboardButton('Создать потребность')
-        btn2 = types.KeyboardButton('Получить потребность')
-        btn3 = types.KeyboardButton('Обратно в меню')
-        markup.add(btn1, btn2)
-        markup.add(btn3)
-        return markup
-    
+    def bar(markup_name: str) -> types.ReplyKeyboardMarkup:
+        def main_bar():
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            btn1 = types.KeyboardButton('Журналы')
+            btn2 = types.KeyboardButton('Технологии')
+            btnx = types.KeyboardButton('Обратно в меню')
+            markup.add(btn1, btn2)
+            markup.add(btnx)
+            return markup
+        if markup_name == 'main':
+            return main_bar()
+        else: err_archivist(__name__, 'Неверный вызов меню бара')
+    def storage(markup_name: str) -> types.ReplyKeyboardMarkup:
+        def main_storage():
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            btn1 = types.KeyboardButton('Потребность')
+            btn2 = types.KeyboardButton('Инвентаризация')
+            btnx = types.KeyboardButton('Обратно в меню')
+            markup.add(btn1, btn2)
+            markup.add(btnx)
+            return markup
+        def require():
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            btn1 = types.KeyboardButton('Создать потребность')
+            btn2 = types.KeyboardButton('Получить потребность')
+            btnx = types.KeyboardButton('Обратно в меню')
+            markup.add(btn1, btn2)
+            markup.add(btnx)
+            return markup
+        def create_require():
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            btn1 = types.KeyboardButton('Готово')
+            btn2 = types.KeyboardButton('Отмена')
+            markup.add(btn1, btn2)
+            return markup
+        if markup_name == "main":
+            return main_storage()
+        elif markup_name == "require":
+            return require()
+        elif markup_name == "create_require":
+            return create_require()
+        else: err_archivist(__name__, 'Неверный вызов меню склада')
 class Inline_menu_keyboard:
     def require():
         markup = types.InlineKeyboardMarkup()

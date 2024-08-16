@@ -2,7 +2,6 @@ from lib import BottleList, Sql_libs
 from datetime import date
 import menu
 from constans import *
-from config import requirement_path
 import loging
 
 try:

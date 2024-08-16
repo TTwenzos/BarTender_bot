@@ -9,20 +9,20 @@ class Reply_markup_handlers:
     def reply_keyboard_handler(message):
         if message.text == 'Бар':
             bot.send_message(message.chat.id, 'Открыт бар', 
-                                reply_markup = Reply_menu_keyboard.bar())
+                                reply_markup = Reply_menu_keyboard.bar("main"))
         elif message.text == 'Склад':
             bot.send_message(message.chat.id, 'Открыт склад',
-                                reply_markup = Reply_menu_keyboard.storage())
+                                reply_markup = Reply_menu_keyboard.storage("main"))
         elif message.text == 'График':
             pass
         elif message.text == 'Стоп лист':
             pass
         elif message.text == 'Потребность':
             bot.send_message(message.chat.id, 'Открыто меню потребностей',
-                                reply_markup = Reply_menu_keyboard.require())
+                                reply_markup = Reply_menu_keyboard.storage("require"))
         elif message.text == 'Создать потребность':
             bot.send_message(message.chat.id, REQUIREMENT_FORMAT_MESSAGE,
-                                reply_markup = Reply_menu_keyboard.create_require())
+                                reply_markup = Reply_menu_keyboard.storage("create_require"))
             bot.register_next_step_handler(message, Require_request.recipient)
         elif message.text == 'Получить потребность':
             bot.send_message(message.chat.id, 'Какую потребность хотите получить?',
