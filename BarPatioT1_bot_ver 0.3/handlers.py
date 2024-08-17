@@ -13,22 +13,25 @@ class Reply_markup_handlers:
         elif message.text == 'Склад':
             bot.send_message(message.chat.id, 'Открыт склад',
                                 reply_markup = Reply_menu_keyboard.storage("main"))
-        elif message.text == 'График':
-            pass
-        elif message.text == 'Стоп лист':
-            pass
+        elif message.text == 'Журналы':
+            bot.send_message(message.chat.id, 'Открыты журналы',
+                                reply_markup = Reply_menu_keyboard.bar("journals"))
+        elif message.text == 'Технологии':
+            bot.send_message(message.chat.id, 'Открыты технологии',
+                                reply_markup = Reply_menu_keyboard.bar("technologies"))
         elif message.text == 'Потребность':
             bot.send_message(message.chat.id, 'Открыто меню потребностей',
                                 reply_markup = Reply_menu_keyboard.storage("require"))
+        elif message.text == 'Инвентаризация':
+            bot.send_message(message.chat.id, 'Открыто меню инвентаризации',
+                                reply_markup = Reply_menu_keyboard.storage("inventory"))
         elif message.text == 'Создать потребность':
             bot.send_message(message.chat.id, REQUIREMENT_FORMAT_MESSAGE,
-                                reply_markup = Reply_menu_keyboard.storage("create_require"))
+                                reply_markup = Reply_menu_keyboard.storage("create_require")) 
             bot.register_next_step_handler(message, Require_request.recipient)
         elif message.text == 'Получить потребность':
             bot.send_message(message.chat.id, 'Какую потребность хотите получить?',
                                 reply_markup= Inline_menu_keyboard.require())
-        elif message.text == 'Инвентаризация':
-            pass
         elif message.text == 'Обратно в меню':
             bot.send_message(message.chat.id, 'Вернулись в меню',
                             reply_markup=Reply_menu_keyboard.main_reply_keyboard())
@@ -72,3 +75,4 @@ class Callback_data_handlers:
             bot.delete_message(callback.message.chat.id, callback.message.message_id)
             bot.send_message(callback.message.chat.id, 'Потребности за другие периоды пока не доступны', 
                                         reply_markup=Reply_menu_keyboard.main_reply_keyboard())
+

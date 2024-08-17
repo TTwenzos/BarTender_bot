@@ -16,14 +16,16 @@ try:
         bot.send_message(message.chat.id, 'Chao!')
         bot.stop_bot()
         exit(0)
-        
-
+    @bot.message_handler(commands=["[admin]"])
+    def admin(message):
+        bot.send_message(message.chat.id, 'Введите пароль админа')
+        bot.register_next_step_handler(message)
     @bot.message_handler(content_types=['text'])
     def request_handler(message):
         Reply_markup_handlers.reply_keyboard_handler(message)
-
     if __name__ == '__main__':
         bot.infinity_polling()
-except Exception as e:
-    loging.err_archivist(__name__, e)
+    else: loging.err_archivist(__name__, 'Бот запущен не из файла "mein.py"', "i")
 
+except Exception as e:
+    loging.err_archivist(__name__, e, "C")

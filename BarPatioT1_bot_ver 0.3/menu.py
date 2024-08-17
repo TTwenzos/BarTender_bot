@@ -2,6 +2,9 @@ import telebot
 from telebot import types
 from datetime import datetime, date
 from loging import err_archivist
+
+root_rights = False ## Рут-права
+
 class Time:
     def get_date(day = "today") -> str:
         if day == "today":
@@ -13,10 +16,11 @@ class Time:
         return hour
     def local_time() -> str:
         date_current_datetime = str(date.today())
-        time_current_datetime = str(datetime.now().hour) + ':' + str(
-                                    datetime.now().minute) + ':' + str(
-                                    datetime.now().second)
-        time = 'local time — ' + date_current_datetime + ' ' + time_current_datetime
+        time_current_datetime = f"""{datetime.now().hour}:
+                                    {datetime.now().minute}:
+                                    {datetime.now().second}"""
+
+        time = f"local time {date_current_datetime} {time_current_datetime}"
         return time
     def greeting(hour) -> str:
         if hour >= 6 and hour < 12:
@@ -56,8 +60,33 @@ class Reply_menu_keyboard:
             markup.add(btn1, btn2)
             markup.add(btnx)
             return markup
+        def journals():
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            btn1 = types.KeyboardButton('Стоп лист')
+            btn2 = types.KeyboardButton('Чек лист')
+            btn3 = types.KeyboardButton('График')
+            btnx = types.KeyboardButton('Обратно в меню')
+            markup.add(btn2)
+            markup.add(btn1, btn3)
+            markup.add(btnx)
+            return markup
+        def technologies():
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            btn1 = types.KeyboardButton('Коктейли')
+            btn2 = types.KeyboardButton('Лимонады')
+            btn3 = types.KeyboardButton('Полуфабрикаты')
+            bnt4 = types.KeyboardButton('Все ТТК')
+            btnx = types.KeyboardButton('Обратно в меню')
+            markup.add(btn2)
+            markup.add(btn1, btn3)
+            markup.add(btnx)
+            return markup
         if markup_name == 'main':
             return main_bar()
+        elif markup_name == 'journals':
+            return journals()
+        elif  markup_name == 'technologies':
+            return technologies()
         else: err_archivist(__name__, 'Неверный вызов меню бара')
     def storage(markup_name: str) -> types.ReplyKeyboardMarkup:
         def main_storage():
@@ -70,6 +99,9 @@ class Reply_menu_keyboard:
             return markup
         def require():
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            if root_rights == true
+                btn_del = types.KeyboardButton('Удалить потребность')
+                markup.add(btn_del)
             btn1 = types.KeyboardButton('Создать потребность')
             btn2 = types.KeyboardButton('Получить потребность')
             btnx = types.KeyboardButton('Обратно в меню')
@@ -82,20 +114,35 @@ class Reply_menu_keyboard:
             btn2 = types.KeyboardButton('Отмена')
             markup.add(btn1, btn2)
             return markup
+        def inventory():
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            btn1 = types.KeyboardButton('Начать инвентаризацию')
+            btn2 = types.KeyboardButton('Получить инвентаризацию')
+            btnx = types.KeyboardButton('Обратно в меню')
+            markup.add(btn1, btn2)
+            markup.add(btnx)
+            return markup
+
         if markup_name == "main":
             return main_storage()
         elif markup_name == "require":
             return require()
         elif markup_name == "create_require":
             return create_require()
+        elif markup_name == 'inventory':
+            return inventory()
         else: err_archivist(__name__, 'Неверный вызов меню склада')
 class Inline_menu_keyboard:
     def require():
         markup = types.InlineKeyboardMarkup()
-        btn1 = types.InlineKeyboardButton('За эту неделю', callback_data = 'this_week_require')
-        btn2 = types.InlineKeyboardButton('За прошлую неделю', callback_data = 'last_week_require')
-        btn3 = types.InlineKeyboardButton('На следующую неделю', callback_data = 'next_week_require')
-        btn4 = types.InlineKeyboardButton('На другой период', callback_data = 'other_week_require')
+        btn1 = types.InlineKeyboardButton('За эту неделю',
+                                            callback_data = 'this_week_require')
+        btn2 = types.InlineKeyboardButton('За прошлую неделю',
+                                            callback_data = 'last_week_require')
+        btn3 = types.InlineKeyboardButton('На следующую неделю',
+                                            callback_data = 'next_week_require')
+        btn4 = types.InlineKeyboardButton('На другой период',
+                                            callback_data = 'other_week_require')
         markup.add(btn1)
         markup.add(btn2, btn3)
         markup.add(btn4)

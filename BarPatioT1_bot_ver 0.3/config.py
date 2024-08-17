@@ -1,6 +1,21 @@
+from loging import err_archivist
+from dotenv import load_dotenv
 import sys
-TOKEN = '7465113130:AAHrE9tzcB01dck0qYZ5MmLKvzal1TYzFBs'
+import os
 
-os_path = str(sys.path[0])
+os_path = str(sys.path[0]) # Системный каталог
+
+load_dotenv(f'{os_path}\\.env')
+
+try:
+#  Токен телеграм бота
+  TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+
+#  Другие переменные окружения
+  ROOT_PASS = os.getenv("TELEGRAM_BOT_ROOT_PASSWORD")
+except Exception as e:
+  err_archivist(__name__, e, 'c')
+
+# Пути файлов
 
 bottle_list_path = f"{os_path}\\Files\\Libs\\Bottle list.xlsx" 

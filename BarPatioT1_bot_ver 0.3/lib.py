@@ -31,7 +31,7 @@ class BottleList:
     # Функция поиска в словаре, по неполному названию.
     def search(name, mode = 'full_info'):
         name = str(name).lower()
-        name = name.strip()
+        name = name.strip() 
         list = BottleList.get_list()
         position = {}
         position_key = []

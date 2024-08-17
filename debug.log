@@ -1,0 +1,23 @@
+2024-08-17T19:31:32.340492+0300 INFO Error level not defined: File: __main__, error code: division by zero! 
+2024-08-17T19:31:33.904805+0300 INFO Error level not defined: File: __main__, error code: division by zero! 
+2024-08-17T19:32:28.683908+0300 DEBUG File: __main__, error code: division by zero!
+2024-08-17T19:33:00.625428+0300 INFO Error level not defined: File: __main__, error code: division by zero! 
+2024-08-17T19:39:42.896224+0300 CRITICAL File: __main__, error code: division by zero!
+2024-08-17T19:40:22.217943+0300 INFO File: menu, error code: Неверный вызов меню бара!
+2024-08-17T19:43:18.212334+0300 INFO File: menu, error code: Неверный вызов меню бара!
+2024-08-17T21:15:01.348189+0300 CRITICAL File: __main__, error code: file ".env" not found!
+2024-08-17T21:15:41.087397+0300 CRITICAL File: __main__, error code: file ".env" not found!
+2024-08-17T21:16:05.829031+0300 CRITICAL File: __main__, error code: file ".env" not found!
+2024-08-17T21:21:23.417127+0300 CRITICAL File: __main__, error code: file ".env" not found!
+2024-08-17T21:21:23.418127+0300 ERROR File: __main__, error code: '_Environ' object is not callable!
+2024-08-17T21:21:23.419127+0300 ERROR File: __main__, error code: '_Environ' object is not callable!
+2024-08-17T21:22:29.426802+0300 ERROR File: __main__, error code: '_Environ' object is not callable!
+2024-08-17T21:22:29.427802+0300 ERROR File: __main__, error code: '_Environ' object is not callable!
+2024-08-17T21:24:43.781537+0300 CRITICAL File: __main__, error code: file ".env" not found!
+2024-08-17T21:24:43.782546+0300 ERROR File: __main__, error code: '_Environ' object is not callable!
+2024-08-17T21:24:43.782546+0300 ERROR File: __main__, error code: '_Environ' object is not callable!
+2024-08-17T21:25:03.364016+0300 ERROR File: __main__, error code: '_Environ' object is not callable!
+2024-08-17T21:25:03.365044+0300 ERROR File: __main__, error code: '_Environ' object is not callable!
+2024-08-17T21:41:47.872552+0300 ERROR File: __main__, error code: '_Environ' object is not callable!
+2024-08-17T21:42:23.396491+0300 ERROR File: __main__, error code: '_Environ' object is not callable!
+2024-08-17T21:42:54.255188+0300 CRITICAL File: __main__, error code: '_Environ' object is not callable!
