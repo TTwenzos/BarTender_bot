@@ -99,7 +99,7 @@ class Reply_menu_keyboard:
             return markup
         def require():
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-            if root_rights == true
+            if root_rights == True:
                 btn_del = types.KeyboardButton('Удалить потребность')
                 markup.add(btn_del)
             btn1 = types.KeyboardButton('Создать потребность')
