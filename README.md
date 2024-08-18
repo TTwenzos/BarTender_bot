@@ -1,6 +1,6 @@
-# Project «Bar Bot» by TTwenzos | Игорь Макаревский
+# Project «@BarBot» by TTwenzos | Игорь Макаревский
 #### Telegram bot dy pyTelegramBotAPI 4.22.1(telebot)
-bot link: https://t.me/BarPatioT1_bot
+bot link: https://t.me/Dev_BarBot
 
 ### Описание
 Телеграм бот — «Bar bot» предназначен для упрощения и оптимизации работы с документами бара.
