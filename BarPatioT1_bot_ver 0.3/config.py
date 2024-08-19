@@ -1,4 +1,4 @@
-from loging import err_archivist
+from logs.loging import Exception_logger
 from dotenv import load_dotenv
 import sys
 import os
@@ -14,7 +14,7 @@ try:
 #  Другие переменные окружения
   ROOT_PASS = os.getenv("TELEGRAM_BOT_ROOT_PASSWORD")
 except Exception as e:
-  err_archivist(__name__, e, 'c')
+  Exception_logger(__name__, e, 'c')
 
 # Пути файлов
 

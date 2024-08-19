@@ -1,9 +1,8 @@
 import telebot
 from telebot import types
 from datetime import datetime, date
-from loging import err_archivist
-
-root_rights = False ## Рут-права
+from loguru import logger
+import os
 
 class Time:
     def get_date(day = "today") -> str:
@@ -19,7 +18,6 @@ class Time:
         time_current_datetime = f"""{datetime.now().hour}:
                                     {datetime.now().minute}:
                                     {datetime.now().second}"""
-
         time = f"local time {date_current_datetime} {time_current_datetime}"
         return time
     def greeting(hour) -> str:
@@ -87,7 +85,7 @@ class Reply_menu_keyboard:
             return journals()
         elif  markup_name == 'technologies':
             return technologies()
-        else: err_archivist(__name__, 'Неверный вызов меню бара')
+        else: logger.info(f'Неверно вызвано меню: {markup_name}')
     def storage(markup_name: str) -> types.ReplyKeyboardMarkup:
         def main_storage():
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -99,7 +97,7 @@ class Reply_menu_keyboard:
             return markup
         def require():
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-            if root_rights == True:
+            if os.getenv("SUPERUSER_RIGHT") == "True":
                 btn_del = types.KeyboardButton('Удалить потребность')
                 markup.add(btn_del)
             btn1 = types.KeyboardButton('Создать потребность')
@@ -131,7 +129,7 @@ class Reply_menu_keyboard:
             return create_require()
         elif markup_name == 'inventory':
             return inventory()
-        else: err_archivist(__name__, 'Неверный вызов меню склада')
+        else: logger.info(f'Неверно вызвано меню: {markup_name}')
 class Inline_menu_keyboard:
     def require():
         markup = types.InlineKeyboardMarkup()

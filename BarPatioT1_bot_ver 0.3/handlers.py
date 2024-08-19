@@ -3,6 +3,9 @@ from config import *
 from menu import Reply_menu_keyboard, Inline_menu_keyboard
 from requirement import Require_request
 from lib import Sql_libs
+from loguru import logger
+from logs.loging import info_logger, feedback
+import root
 
 # Обработчики Реплай клавиатуры
 class Reply_markup_handlers:  
@@ -32,6 +35,15 @@ class Reply_markup_handlers:
         elif message.text == 'Получить потребность':
             bot.send_message(message.chat.id, 'Какую потребность хотите получить?',
                                 reply_markup= Inline_menu_keyboard.require())
+        elif message.text == 'Удалить потребность':
+            if os.environ.get("SUPERUSER_RIGHT") == "True":         # Проверка на права супер-пользователя
+                bot.send_message(message.chat.id, 'Потребность удалена',
+                            reply_markup=Reply_menu_keyboard.main_reply_keyboard())
+            else: bot.send_message(message.chat.id, 'Вы не можете этого сделать',
+                            reply_markup=Reply_menu_keyboard.main_reply_keyboard())
+        elif message.text == 'Обратная связь':
+            bot.send_message(message.chat.id, FEEDBACK_MESSAGE)
+            bot.register_next_step_handler(message, feedback)
         elif message.text == 'Обратно в меню':
             bot.send_message(message.chat.id, 'Вернулись в меню',
                             reply_markup=Reply_menu_keyboard.main_reply_keyboard())
@@ -76,3 +88,20 @@ class Callback_data_handlers:
             bot.send_message(callback.message.chat.id, 'Потребности за другие периоды пока не доступны', 
                                         reply_markup=Reply_menu_keyboard.main_reply_keyboard())
 
+class PasswordException(Exception):
+    @property
+    def message():
+        'Введен неверный пароль'
+
+
+class Password_handler:
+    logger.catch()
+    def root_handler(message):
+        user = f"{message.from_user.first_name} {message.from_user.last_name} ({message.from_user.username})"
+        password = message.text
+        pass_check = root.root(user=user, password=password)
+        if pass_check == True:
+            bot.send_message(message.chat.id, "Пароль принят")
+        else:
+            bot.send_message(message.chat.id, "Введен неверный пароль")
+            raise PasswordException

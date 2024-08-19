@@ -3,7 +3,7 @@ from config import bottle_list_path
 import sqlite3
 from menu import Time
 from pprint import pprint 
-import loging
+from logs.loging import Exception_logger
 
 
 wb = op.load_workbook(bottle_list_path)
@@ -73,7 +73,7 @@ class Sql_libs:
             requirement_libs.commit()
         except sqlite3.IntegrityError: return 'err: RETRY_CREATE_REQUIREMENT'
         except Exception as e:
-            loging.err_archivist(__name__, e) 
+            Exception_logger(__name__, e, 'c') 
         else: return "done"
         finally:
             cursor.close()
@@ -98,7 +98,7 @@ class Sql_libs:
             elif week == 'last': # Если запрос на прошлую неделю вернул пустую таблицу.
                 return 'err 0'
         except Exception as e:
-            loging.err_archivist(__name__, e) 
+            Exception_logger(__name__, e, 'c')
         else:
             raw_require = str(require).replace('(', '').replace(')', '')
             list_require = raw_require.split('\n')
