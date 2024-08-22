@@ -11,10 +11,6 @@ try:
         bot.send_message(message.chat.id, Time.greeting(Time.get_hour()), reply_markup=Reply_menu_keyboard.main_reply_keyboard())
         bot.register_next_step_handler(message, request_handler)
 
-    @bot.message_handler(commands=['getenv'])
-    def main(message):
-        bot.send_message(message.chat.id, str(os.environ["SUPERUSER_RIGHT"]))
-
     @bot.message_handler(commands=['exit'])
     def main(message):
         bot.send_message(message.chat.id, 'Chao!')
