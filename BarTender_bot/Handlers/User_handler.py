@@ -1,8 +1,8 @@
 # Импорты встроенных библиотек 
 from dataclasses import dataclass
 from enum import Enum
-import sys
 import os
+import sys
 
 # Импорты сторонних библиотек || Смотрите фаил property.toml
 import sqlite3
@@ -11,8 +11,8 @@ import sqlite3
 if __name__ == '__main__':
   sys.path.insert(0, os.path.join(sys.path[0], '..'))
   sys.path.insert(0, os.path.join(sys.path[0], '..'))
+from BarTender_bot.Handlers.Time_handler import get_date
 from Logs.logs import logoose, logus
-from Handlers.Time_handler import get_date
 
 @dataclass
 class Roles(str, Enum):

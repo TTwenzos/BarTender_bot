@@ -1,15 +1,16 @@
 # Запустите этот фаил, для запуска бота
 # Импорты встроенных библиотек 
-import sys
 import os
+import sys
 # Импорты сторонних библиотек || Смотрите фаил property.toml
 import telebot
 #  Свои импорты
 sys.path.insert(0, os.path.join(sys.path[0], '..'))
-from Parametrs.configs import TOKEN
-from Handlers.User_handler import user_log_in
-from Handlers.Keybort_handler import Markup
-from Handlers.Time_handler import greeting
+sys.path.insert(0, os.path.join(sys.path[0], '..'))
+from BarTender_bot.Handlers.Time_handler import greeting
+from BarTender_bot.Handlers.User_handler import Roles, user_log_in, user_rerole
+from BarTender_bot.Libs.Keybort_lib import Markup
+from BarTender_bot.Parametrs.configs import TOKEN
 from Logs.logs import logoose, logus
 
 logus.debug(TOKEN)
@@ -19,29 +20,44 @@ bot = telebot.TeleBot(TOKEN)
 def bot_started_command(message):
   logus.debug('Bot started')
   USER = user_log_in(message)
-  bot.send_message(message.chat.id, f'{greeting()} {USER.get_name}. Вы вошли как {USER.get_role}')
+  markup = Markup('bb, b', 'Бар, Склад, Обратная связь', message.chat.id)
+  bot.send_message(message.chat.id, f'{greeting()} {USER.get_name}. Вы вошли как {USER.get_role}', reply_markup=markup.get_markup)
 
-@bot.message_handler(commands=["restart"])
-def bot_restarted_command(message):
-  logus.debug('Bot restarted')
+@bot.message_handler(commands=["role"])
+def user_rerole_inbot(message):
+  user_id = message.chat.id
+  markup = Markup("bb, bb, b", "Бармен, Кладовщик, Менеджер, Директор, Суперпользователь", user_id)
+  bot.send_message(user_id, "Выберете роль", reply_markup=markup.get_markup)
 
-
-
-@bot.message_handler(commands=["md"])
-def bot_restarted_command(message):
-  mar = Markup('bb, b', 'Бар, Склад, Обратная связь', message.chat.id)
-  bot.send_message(message.chat.id, 'md', reply_markup=mar.get_markup)
+@bot.message_handler(commands=["test"])
+def user_rerole_inbot(message):
+  user_id = message.chat.id
+  markup = Markup("bs, md, a", "Бармен, Кладовщик, Менеджер, Директор, Суперпользователь", user_id)
+  bot.send_message(user_id, "Выберете роль", reply_markup=markup.get_markup)
 
 @bot.message_handler(content_types=['text'])
 def message_text(message):
-  text = message.text
-  id = message.chat.id
-  if text == 'Бар':
-    markup = Markup('bs, mmmm, a, b', 'Бармен, Кладовщик, Менеджер, Директор, Админ, Бармен', id)
-    bot.send_message(id, 'Бар', reply_markup=markup.get_markup)
-  elif text == 'Склад': pass
-  elif text == 'Обратная связь': pass
-
+  user = user_log_in(message).get_name
+  logus.debug(user)
+  # logus.debug(text)
+  text = str(message.text)
+  markup = Markup('bb, b', 'Бар, Склад, Обратная связь', message.chat.id)
+  if text == 'Бармен':
+    user_rerole(user, Roles.BARTENDER)
+    bot.send_message(message.chat.id, f'Теперь вы {Roles.BARTENDER.value}', reply_markup=markup.get_markup)
+  elif text == 'Кладовщик':
+    user_rerole(user, Roles.STOREKEEPER)
+    bot.send_message(message.chat.id, f'Теперь вы {Roles.STOREKEEPER.value}', reply_markup=markup.get_markup)
+  elif text == 'Менеджер':
+    user_rerole(user, Roles.MANAGER)
+    bot.send_message(message.chat.id, f'Теперь вы {Roles.MANAGER.value}',reply_markup=markup.get_markup)
+  elif text == 'Директор':
+    user_rerole(user, Roles.DIRECTOR)
+    bot.send_message(message.chat.id, f'Теперь вы {Roles.DIRECTOR.value}', reply_markup=markup.get_markup)
+  elif text == 'Суперпользователь':
+    user_rerole(user, Roles.SUPERUSER)
+    bot.send_message(message.chat.id, f'Теперь вы {Roles.SUPERUSER.value}', reply_markup=markup.get_markup)
+  else: pass
 
 
 if __name__ == '__main__':

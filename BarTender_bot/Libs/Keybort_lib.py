@@ -1,18 +1,19 @@
 # Импорты встроенных библиотек 
 from dataclasses import dataclass
-import sys
 import os
+import sys
 
 # Импорты сторонних библиотек || Смотрите фаил property.toml
+from accessify import private
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton
 
 # Импорты своих модулей
 if __name__ == '__main__':
   sys.path.insert(0, os.path.join(sys.path[0], '..'))
   sys.path.insert(0, os.path.join(sys.path[0], '..'))
-from Handlers.User_handler import Roles, check_user_role
+from BarTender_bot.Handlers.User_handler import Roles, check_user_role
+from BarTender_bot.Parametrs.constans import LENBTNEXCEP, LENMARKUPEXCEP
 from Logs.logs import logus, logoose
-from Parametrs.constans import LENBTNEXCEP, LENMARKUPEXCEP
 
 class MarkupException(Exception):
   '''Общий класс ошибки разметки'''
@@ -79,10 +80,72 @@ class Markup:
     self.markup: str = markup
     self.buttons: str = buttons
     self.user_id: int = user_id
-    Markup.get_matrix(self)
+    Markup.__get_matrix(self)
 
+  @property
+  def get_markup(self):
+    '''Возвращает **ReplyKeyboardMarkup**.'''
+    def check_user_privilege(user_role):
+      if user_role == 'Бармен':
+        privilege = 0
+      elif user_role == 'Кладовщик':
+        privilege = 1
+      elif user_role == 'Менеджер':
+        privilege = 2
+      elif user_role == 'Директор':
+        privilege = 3
+      elif user_role == 'Суперпользователь':
+        privilege = 4
+      return privilege
+# Проверяем, есть ли у пользователя доступ к кнопкам, если нет, удаляем их из словаря.  
+    def chech_input_buttons(self, user):
+      count = 0
+      index = 0
+      matrix_index = 0
+      matrix = self.matrix
+      buttons = self.buttons
+      new_matrix = list()
+      new_buttons = dict()
+      for i in matrix:
+        for j in range(i):
+          if user >= buttons[count][1]:
+            new_buttons[index] = buttons[count][0]
+            index += 1
+            matrix_index += 1
+          count += 1
+        if matrix_index > 0: new_matrix.append(matrix_index)
+        matrix_index = 0
+        self.buttons = new_buttons
+        self.matrix = new_matrix
+    chech_input_buttons(self, user) # Вызываем метод проверки разметки.
+# Переменные метода.
+    user = check_user_privilege(check_user_role(self.user_id))
+    keyboard_markup = ReplyKeyboardMarkup(resize_keyboard=True)
+    self.keyboard_markup = keyboard_markup
+    count = 0 # Счетчик цикла 
+# Создаем разметку
+    for i in self.matrix:
+      if i == 1:
+        btn = KeyboardButton(self.buttons[count])
+        self.keyboard_markup.add(btn)
+        count += 1
+      elif i == 2:
+        btn = KeyboardButton(self.buttons[count])
+        btn1 = KeyboardButton(self.buttons[count+1])
+        self.keyboard_markup.add(btn, btn1)
+        count += 2
+      elif i == 3:
+        btn = KeyboardButton(self.buttons[count])
+        btn1 = KeyboardButton(self.buttons[count+1])
+        btn2 = KeyboardButton(self.buttons[count+2])
+        self.keyboard_markup.add(btn, btn1, btn2)
+        count += 3
+      else: continue
+    return self.keyboard_markup
+
+  @private
   @logus.catch()
-  def get_matrix(self):
+  def __get_matrix(self):
     raw_button_markup_list = self.markup.replace(' ', '').split(',')
     button_name_list = [i.strip(' ') for i in self.buttons.split(',')]
     matrix = list()
@@ -117,74 +180,3 @@ class Markup:
     except Exception as e: logoose(__name__, e, "e")
     self.matrix = matrix
     self.buttons = buttons
-  
-  @property
-  def get_markup(self):
-    def check_user_privilege(user_role):
-      if user_role == 'Бармен':
-        privilege = 0
-      elif user_role == 'Кладовщик':
-        privilege = 1
-      elif user_role == 'Менеджер':
-        privilege = 2
-      elif user_role == 'Директор':
-        privilege = 3
-      elif user_role == 'Суперпользователь':
-        privilege = 4
-      return privilege
-    
-    def chech_input_buttons(self, user):
-      count = 0
-      index = 0
-      matrix_index = 0
-      matrix = self.matrix
-      buttons = self.buttons
-      new_matrix = list()
-      new_buttons = dict()
-      for i in matrix:
-        for j in range(i):
-          if user >= buttons[count][1]:
-            new_buttons[index] = buttons[count][0]
-            index += 1
-            matrix_index += 1
-          count += 1
-        if matrix_index > 0: new_matrix.append(matrix_index)
-        matrix_index = 0
-        self.buttons = new_buttons
-        self.matrix = new_matrix
-        logus.debug(f"{self.matrix}, {self.buttons}")
-      
-    logus.debug(check_user_role(self.user_id))
-    user = check_user_privilege(check_user_role(self.user_id))
-    chech_input_buttons(self, user)
-    keyboard_markup = ReplyKeyboardMarkup(resize_keyboard=True)
-    self.keyboard_markup = keyboard_markup
-    logus.debug(self.buttons)
-    count = 0
-
-    for i in self.matrix:
-      if i == 1:
-        logus.debug(self.buttons[count])
-        btn = KeyboardButton(self.buttons[count])
-        self.keyboard_markup.add(btn)
-        count += 1
-      elif i == 2:
-        logus.debug(self.buttons[count])
-        logus.debug(self.buttons[count+1])
-        btn = KeyboardButton(self.buttons[count])
-        btn1 = KeyboardButton(self.buttons[count+1])
-        self.keyboard_markup.add(btn, btn1)
-        count += 2
-      elif i == 3:
-        logus.debug(self.buttons[count])
-        logus.debug(self.buttons[count+1])
-        logus.debug(self.buttons[count+2])
-        btn = KeyboardButton(self.buttons[count])
-        btn1 = KeyboardButton(self.buttons[count+1])
-        btn2 = KeyboardButton(self.buttons[count+2])
-        self.keyboard_markup.add(btn, btn1, btn2)
-        count += 3
-      else: continue
-    return self.keyboard_markup
-
-  
