@@ -9,8 +9,7 @@ import sqlite3
 
 # Импорты своих модулей
 if __name__ == '__main__':
-  sys.path.insert(0, os.path.join(sys.path[0], '..'))
-  sys.path.insert(0, os.path.join(sys.path[0], '..'))
+  sys.path.insert(0, os.path.join(sys.path[0], '../..'))
 from BarTender_bot.Handlers.Time_handler import get_date
 from Logs.logs import logoose, logus
 
@@ -71,7 +70,6 @@ def user_init(username: str, user_id: int) -> User:
     logoose(__name__, e, 'e')
   cursor.close()
   users.close()
-  logus.debug(f'Пользователь: {username}, вошел в бота')
   return User(name, role, id)
 
 # Регистрация пользователя
@@ -114,7 +112,7 @@ def check_user_role(user_id) -> Roles:
   users.close()
   return str(*role)
 
-# user_rerole('John Doe', Roles.MANAGER)
+# user_rerole('John Doe', Roles.BARTENDER)
 # user_rerole("Игорь Макарьевский (TTwenzos)", Roles.MANAGER)
 
 # user_del('Игорь Макарьевский (TTwenzos)')
