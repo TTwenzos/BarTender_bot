@@ -4,3 +4,10 @@ __pycache__
 venv
 .venv
 Bartender bot.old
+CRITICAL.log
+ERROR.log
+INFO.log
+SUCCESS.log
+WARNING.log
+Bottle list.xlsx
+Process charts.xlsx
